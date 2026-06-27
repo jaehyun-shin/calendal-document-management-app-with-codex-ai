@@ -1,2 +1,2 @@
-# my-page-with-cursor
-cursor를 활용한 나의 개발 log 페이지
+# my-page-with-ai
+AI 바이브 코딩을 활용한 나의 개발 페이지
