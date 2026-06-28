@@ -3,10 +3,16 @@ import { formatTimeRange, isSameLocalDate } from "./dateUtils";
 
 describe("dateUtils", () => {
   it("detects same local date", () => {
-    expect(isSameLocalDate("2026-06-28T00:30:00.000Z", new Date("2026-06-28T12:00:00.000Z"))).toBe(true);
+    const targetDate = new Date(2026, 5, 28, 12, 0);
+    const sameDate = new Date(2026, 5, 28, 9, 30).toISOString();
+
+    expect(isSameLocalDate(sameDate, targetDate)).toBe(true);
   });
 
   it("formats a time range", () => {
-    expect(formatTimeRange("2026-06-28T14:00:00.000Z", "2026-06-28T15:30:00.000Z")).toContain(":");
+    const startsAt = new Date(2026, 5, 28, 14, 0).toISOString();
+    const endsAt = new Date(2026, 5, 28, 15, 30).toISOString();
+
+    expect(formatTimeRange(startsAt, endsAt)).toMatch(/14\D00\s-\s15\D30/);
   });
 });
