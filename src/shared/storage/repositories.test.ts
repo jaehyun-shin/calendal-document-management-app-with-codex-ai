@@ -51,4 +51,23 @@ describe("repositories", () => {
     expect(repositories.schedules.list().length).toBeGreaterThan(0);
     expect(repositories.documents.list().length).toBeGreaterThan(0);
   });
+
+  it("clears schedules to an empty collection", () => {
+    const repositories = createRepositories(createLocalStorageAdapter(window.localStorage));
+
+    repositories.schedules.clear();
+
+    expect(repositories.schedules.list()).toEqual([]);
+  });
+
+  it("does not mutate seed schedules when a listed fallback collection is changed", () => {
+    const repositories = createRepositories(createLocalStorageAdapter(window.localStorage));
+    const schedules = repositories.schedules.list();
+
+    schedules.pop();
+
+    const freshRepositories = createRepositories(createLocalStorageAdapter(window.localStorage));
+
+    expect(freshRepositories.schedules.list().length).toBeGreaterThan(0);
+  });
 });
