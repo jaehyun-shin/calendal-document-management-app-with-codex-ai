@@ -1,0 +1,9 @@
+node_modules/
+dist/
+dist-ssr/
+.vite/
+coverage/
+src-tauri/target/
+.superpowers/
+*.local
+*.tsbuildinfo
