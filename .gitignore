@@ -6,3 +6,4 @@ coverage/
 src-tauri/target/
 .superpowers/
 *.local
+*.tsbuildinfo
