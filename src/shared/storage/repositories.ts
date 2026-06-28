@@ -54,10 +54,18 @@ export const seedDocuments: DocumentRecord[] = [
   },
 ];
 
+function cloneJson<T>(value: T): T {
+  if (typeof structuredClone === "function") {
+    return structuredClone(value);
+  }
+
+  return JSON.parse(JSON.stringify(value)) as T;
+}
+
 function createCollectionRepository<T>(storage: JsonStorageAdapter, key: string, fallback: T[] = []) {
   return {
     list(): T[] {
-      return [...storage.read<T[]>(key, fallback)];
+      return cloneJson(storage.read<T[]>(key, fallback));
     },
     saveAll(items: T[]): void {
       storage.write(key, items);
@@ -83,7 +91,7 @@ export function createRepositories(storage: JsonStorageAdapter) {
     attachments: createCollectionRepository<Attachment>(storage, storageKeys.attachments),
     participants: {
       list(): Participant[] {
-        return [...storage.read<Participant[]>(storageKeys.participants, seedParticipants)];
+        return cloneJson(storage.read<Participant[]>(storageKeys.participants, seedParticipants));
       },
       saveAll(items: Participant[]): void {
         storage.write(storageKeys.participants, items);
@@ -91,7 +99,7 @@ export function createRepositories(storage: JsonStorageAdapter) {
     },
     categories: {
       list(): Category[] {
-        return [...storage.read<Category[]>(storageKeys.categories, seedCategories)];
+        return cloneJson(storage.read<Category[]>(storageKeys.categories, seedCategories));
       },
       saveAll(items: Category[]): void {
         storage.write(storageKeys.categories, items);

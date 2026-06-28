@@ -70,4 +70,16 @@ describe("repositories", () => {
 
     expect(freshRepositories.schedules.list().length).toBeGreaterThan(0);
   });
+
+  it("does not mutate seed schedules when a listed fallback record is changed", () => {
+    const repositories = createRepositories(createLocalStorageAdapter(window.localStorage));
+    const originalTitle = repositories.schedules.list()[0].title;
+    const schedules = repositories.schedules.list();
+
+    schedules[0].title = "changed title";
+    resetLocalStorage();
+    const freshRepositories = createRepositories(createLocalStorageAdapter(window.localStorage));
+
+    expect(freshRepositories.schedules.list()[0].title).toBe(originalTitle);
+  });
 });
