@@ -1,4 +1,4 @@
-import type { AppSettings, Attachment, Category, DocumentRecord, Participant, Schedule } from "../types/domain";
+import type { AppSettings, Attachment, Category, DocumentRecord, Participant, Schedule, Task } from "../types/domain";
 import type { JsonStorageAdapter } from "./localStorageAdapter";
 import { storageKeys } from "./storageKeys";
 
@@ -33,6 +33,25 @@ export const seedSchedules: Schedule[] = [
     endsAt: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
     place: "회의실 A",
     documentIds: ["document-1"],
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+];
+
+export const seedTasks: Task[] = [
+  {
+    id: "task-1",
+    title: "제품 회의 후속 작업",
+    status: "todo",
+    startsAt: new Date().toISOString(),
+    endsAt: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+    place: "회의실 A",
+    attendees: [],
+    agenda: "회의 안건과 참고 자료를 정리합니다.",
+    referenceMaterials: [],
+    owner: "Jay",
+    project: "Calendal",
+    notes: "회의 안건과 참고 자료를 정리합니다.",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
@@ -87,6 +106,7 @@ export function createRepositories(storage: JsonStorageAdapter) {
       },
     },
     schedules: createCollectionRepository<Schedule>(storage, storageKeys.schedules, seedSchedules),
+    tasks: createCollectionRepository<Task>(storage, storageKeys.tasks, seedTasks),
     documents: createCollectionRepository<DocumentRecord>(storage, storageKeys.documents, seedDocuments),
     attachments: createCollectionRepository<Attachment>(storage, storageKeys.attachments),
     participants: {

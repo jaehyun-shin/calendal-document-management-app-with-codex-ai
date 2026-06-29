@@ -1,4 +1,4 @@
-export type StartScreen = "today" | "calendar" | "documents" | "statistics" | "settings";
+export type StartScreen = "today" | "calendar" | "tasks" | "documents" | "statistics" | "settings";
 
 export type CalendarDefaultView = "month" | "day";
 
@@ -35,14 +35,75 @@ export interface Schedule {
   title: string;
   categoryId: string;
   participantIds: string[];
+  attendees?: ScheduleAttendee[];
   startsAt: string;
   endsAt: string;
   place: string;
+  agenda?: string;
+  referenceMaterials?: string[];
   pageUrl?: string;
   memo?: string;
   documentIds: string[];
   createdAt: string;
   updatedAt: string;
+}
+
+export interface ScheduleAttendee {
+  id: string;
+  name: string;
+  accepted: boolean;
+}
+
+export interface AddScheduleInput {
+  title: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  place: string;
+  attendees: Array<{
+    name: string;
+    accepted: boolean;
+  }>;
+  agenda: string;
+  referenceMaterials: string[];
+}
+
+export type TaskStatus = "todo" | "inProgress" | "done";
+
+export interface Task {
+  id: string;
+  title: string;
+  status: TaskStatus;
+  startsAt: string;
+  endsAt: string;
+  place: string;
+  attendees?: ScheduleAttendee[];
+  agenda?: string;
+  referenceMaterials?: string[];
+  owner: string;
+  project: string;
+  notes: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AddTaskInput {
+  title: string;
+  status: TaskStatus;
+  startDate: string;
+  startTime: string;
+  endDate: string;
+  endTime: string;
+  place: string;
+  attendees: Array<{
+    name: string;
+    accepted: boolean;
+  }>;
+  agenda: string;
+  referenceMaterials: string[];
+  owner: string;
+  project: string;
+  notes: string;
 }
 
 export interface DocumentBlock {
